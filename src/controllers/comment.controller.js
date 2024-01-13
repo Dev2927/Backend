@@ -8,6 +8,13 @@ const getVideoComments = asyncHandler(async (req, res) => {
   //TODO: get all comments for a video
   const { videoId } = req.params;
   const { page = 1, limit = 10 } = req.query;
+
+  if(!videoId){
+    throw new ApiError(500, 'Video  is missing')
+  }
+
+  
+  
 });
 
 const addComment = asyncHandler(async (req, res) => {

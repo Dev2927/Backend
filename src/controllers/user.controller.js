@@ -24,19 +24,10 @@ const generateAccessAndRefreshTokens = async (userId) => {
   }
 };
 
+// --------------------User registered--------------------
 const registerUser = asyncHandler(async (req, res) => {
-  // Get user details from frontend
-  // Validation - not empty
-  // Check if user already exists: username, email
-  // Check for images, check for avatar
-  // Upload them to cloudinary, avatar
-  // Create user object - create entry in DB
-  // Remove password and refresh token field from response
-  // Check for user creation
-  // Return res
 
   const { fullname, email, username, password } = req.body;
-  // console.log("email: ", email);
 
   if (
     [fullname, email, username, password].some((field) => field?.trim() === "")
@@ -53,7 +44,6 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const avatarLocalPath = req.files?.avatar[0]?.path;
-  // const coverImageLocalPath = req.files?.coverImage?.[0].path;
 
   let coverImageLocalPath;
   if (
@@ -97,6 +87,7 @@ const registerUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, createdUser, "User registered Successfully"));
 });
 
+// -----------------------Login user-------------------
 const loginUser = asyncHandler(async (req, res) => {
   // req body -> Data
   // username or email
@@ -155,6 +146,7 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 });
 
+// -----------------------Logout user------------------------
 const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     req.user._id,
@@ -180,6 +172,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "User logged Out"));
 });
 
+// -----------------------Refresh & Access Token----------------
 const refreshAccessToken = asyncHandler(async (req, res) => {
   const incomingRefreshToken =
     req.cookies.refreshToken || req.body.refreshToken;
@@ -228,6 +221,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   }
 });
 
+// -----------------------Change password----------------------
 const changeCurrentPassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
 
@@ -247,12 +241,14 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Password changed successfully"));
 });
 
+// -------------------------Get current user ---------------------
 const getCurrentUser = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(new ApiResponse(200, req.user, "Current user fetched successfully"));
 });
 
+// ------------------------Update Account details-------------------
 const updateAccountDetails = asyncHandler(async (req, res) => {
   const { fullname, email } = req.body;
 
@@ -276,6 +272,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, "Account details successfully"));
 });
 
+// ------------------------Update Avatar---------------------------
 const updateUserAvatar = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.file?.path;
 
@@ -304,6 +301,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, "Avatar updated successfully"));
 });
 
+// ------------------------Update coverImage-----------------------
 const updateUserCoverImage = asyncHandler(async (req, res) => {
   const coverImageLocalPath = req.file?.path;
 
@@ -332,6 +330,7 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, "Cover image updated successfully"));
 });
 
+// -------------------------Get Channel Profile-------------------------
 const getUserChannelProfile = asyncHandler(async (req, res) => {
   const { username } = req.params;
 
@@ -403,6 +402,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
     );
 });
 
+// -------------------------Get watch history-----------------------------
 const getWatchHistory = asyncHandler(async (req, res) => {
   const user = await User.aggregate([
     {
