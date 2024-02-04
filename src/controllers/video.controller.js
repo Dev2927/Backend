@@ -7,7 +7,6 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import {
   deleteOnCloudinary,
   uploadOnCloudinaary,
-  uploadOnCloudinary,
 } from "../utils/cloudinary.js";
 
 // Get all videos based on query, sort, pagination
@@ -86,8 +85,8 @@ const publishAVideo = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Video path is missing");
   }
 
-  const videoFile = await uploadOnCloudinary(videoFileLocalPath);
-  const thumbnail = await uploadOnCloudinary(thumbnailLocalPath);
+  const videoFile = await uploadOnCloudinaary(videoFileLocalPath);
+  const thumbnail = await uploadOnCloudinaary(thumbnailLocalPath);
 
   if (!videoFile) {
     throw new ApiError(

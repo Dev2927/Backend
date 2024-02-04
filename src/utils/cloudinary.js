@@ -1,7 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
-// config
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -11,7 +10,6 @@ cloudinary.config({
 const uploadOnCloudinaary = async (localFilePath) => {
   try {
     if (!localFilePath) return null;
-    // upload the file on cloudinary
     const responce = await cloudinary.uploader.upload(localFilePath, {
       folder: "Vtube",
       resource_type: "auto",
@@ -20,7 +18,6 @@ const uploadOnCloudinaary = async (localFilePath) => {
     return responce;
   } catch (error) {
     fs.unlinkSync(localFilePath);
-    // remove the local saved tempory file as the upload operation got failed
     return null;
   }
 };
